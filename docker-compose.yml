@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  authentication-services:
+    image: authentication_images
+    container_name: authenticationcontainer5
+    build: demoAuthentication/
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - 8088:8088
+    depends_on:
+      - mysqlService
+
+  shop-service:
+    image: shope_image
+    container_name: shoppingservice1
+    build: shopping/
+    restart: always
+    networks:
+      - mynetwork
+    ports:
+      - 8089:8089
+    depends_on:
+      - mysqlService
+
+  mysqlService:
+    image: mysql:latest
+    container_name: mysqlcontainer5
+    networks:
+      - mynetwork
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+
+
+
